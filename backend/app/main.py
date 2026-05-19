@@ -10,7 +10,7 @@ app = FastAPI(
 
 import os
 
-cors_origins_str = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
+cors_origins_str = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,https://appcontrol-six.vercel.app,https://appcontrol.vercel.app")
 origins = [origin.strip() for origin in cors_origins_str.split(",") if origin.strip()]
 
 # Configuração de CORS para permitir requisições do Frontend React (Local e Vercel)
