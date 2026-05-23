@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Usuario } from '../types';
-import { authService } from '../services/auth';
+import { supabase } from '../services/supabase';
 
 interface AuthState {
   usuario: Usuario | null;
@@ -17,7 +17,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       usuario: null,
       token: null,
       loading: false,
@@ -26,10 +26,20 @@ export const useAuthStore = create<AuthState>()(
       login: async (email, senha) => {
         set({ loading: true, erro: null });
         try {
-          const data = await authService.login(email, senha);
-          set({ usuario: data.usuario, token: data.token, loading: false });
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
+          if (error) throw error;
+          const user = data.user;
+          const session = data.session;
+          const nome = user?.user_metadata?.nome || user?.email?.split('@')[0] || '';
+          set({
+            usuario: { id: user!.id, email: user!.email!, nome },
+            token: session!.access_token,
+            loading: false,
+          });
         } catch (error: any) {
-          const mensagem = error.response?.data?.detail || 'Erro ao realizar login. Verifique suas credenciais.';
+          const mensagem = error.message?.includes('Invalid login credentials')
+            ? 'Email ou senha incorretos.'
+            : error.message || 'Erro ao realizar login.';
           set({ erro: mensagem, loading: false });
           throw error;
         }
@@ -38,10 +48,21 @@ export const useAuthStore = create<AuthState>()(
       cadastro: async (nome, email, senha) => {
         set({ loading: true, erro: null });
         try {
-          const data = await authService.cadastro(nome, email, senha);
-          set({ usuario: data.usuario, token: data.token, loading: false });
+          const { data, error } = await supabase.auth.signUp({
+            email,
+            password: senha,
+            options: { data: { nome } },
+          });
+          if (error) throw error;
+          const user = data.user;
+          const session = data.session;
+          set({
+            usuario: { id: user!.id, email: user!.email!, nome },
+            token: session?.access_token || null,
+            loading: false,
+          });
         } catch (error: any) {
-          const mensagem = error.response?.data?.detail || 'Erro ao realizar cadastro.';
+          const mensagem = error.message || 'Erro ao realizar cadastro.';
           set({ erro: mensagem, loading: false });
           throw error;
         }
@@ -50,24 +71,31 @@ export const useAuthStore = create<AuthState>()(
       logout: async () => {
         set({ loading: true });
         try {
-          await authService.logout();
+          await supabase.auth.signOut();
         } catch (e) {
-          console.error('Erro no logout da API', e);
+          console.error('Erro no logout', e);
         } finally {
           set({ usuario: null, token: null, loading: false, erro: null });
         }
       },
 
       carregarSessao: async () => {
-        const { token } = get();
-        if (!token) return;
-
         set({ loading: true, erro: null });
         try {
-          const usuario = await authService.getMe();
-          set({ usuario, loading: false });
+          const { data } = await supabase.auth.getSession();
+          const session = data.session;
+          if (session) {
+            const user = session.user;
+            const nome = user?.user_metadata?.nome || user?.email?.split('@')[0] || '';
+            set({
+              usuario: { id: user.id, email: user.email!, nome },
+              token: session.access_token,
+              loading: false,
+            });
+          } else {
+            set({ usuario: null, token: null, loading: false });
+          }
         } catch (error) {
-          console.error('Sessão expirada ou inválida', error);
           set({ usuario: null, token: null, loading: false });
         }
       },
