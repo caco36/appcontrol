@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth';
 import { useProjetosStore } from '../store/projetos';
@@ -13,7 +13,9 @@ import {
   AlertOctagon, 
   LogOut,
   Zap,
-  Sparkles
+  Sparkles,
+  Map,
+  BookOpen
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -22,23 +24,34 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { usuario, logout } = useAuthStore();
-  const { projetoAtivo } = useProjetosStore();
+  const { projetoAtivo, recarregarProjetoSilencioso } = useProjetosStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (projetoAtivo?.id) {
+      recarregarProjetoSilencioso(projetoAtivo.id);
+    }
+  }, [projetoAtivo?.id, recarregarProjetoSilencioso]);
+
 
   const handleLogout = async () => {
     await logout();
     navigate('/login');
   };
 
+  const erroCount = projetoAtivo?.erros?.length || 0;
+
   const navItems = [
     { to: '/', label: 'Projetos', icon: FolderKanban },
+    { to: '/mapa', label: 'Mapa', icon: Map },
     { to: '/extrator', label: 'Extrator IA', icon: Cpu },
     { to: '/guard-prompt', label: 'Guard Prompt', icon: ShieldCheck },
     { to: '/checklist', label: 'Checklist', icon: CheckSquare },
     { to: '/vistoria', label: 'Vistoria', icon: SearchCheck },
     { to: '/roteiro', label: 'Roteiro', icon: FileText },
     { to: '/historico', label: 'Histórico', icon: History },
-    { to: '/erros', label: 'Log de Erros', icon: AlertOctagon },
+    { to: '/erros', label: 'Log de Erros', icon: AlertOctagon, badge: erroCount > 0 ? erroCount : undefined },
+    { to: '/briefing', label: 'Briefing', icon: BookOpen },
     { to: '/fonte-de-verdade', label: 'Fonte de Verdade', icon: Sparkles },
   ];
 
@@ -56,7 +69,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
               <h1 className="font-bold text-lg tracking-wider text-white flex items-center gap-1.5">
                 App<span className="text-[#e8ff5a]">Control</span>
               </h1>
-              <span className="text-[10px] uppercase font-mono tracking-widest text-gray-500 block">v1.0 • IA Manager</span>
+              <span className="text-[10px] uppercase font-mono tracking-widest text-gray-500 block">v2.0 • IA Manager</span>
             </div>
           </div>
         </div>
@@ -95,7 +108,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 }
               >
                 <Icon className="w-4 h-4" />
-                <span>{item.label}</span>
+                <span className="flex-1">{item.label}</span>
+                {'badge' in item && item.badge !== undefined && (
+                  <span className="ml-auto px-1.5 py-0.5 min-w-[20px] text-center bg-red-500/20 text-red-400 border border-red-500/30 rounded-md text-[10px] font-mono font-bold leading-tight">
+                    {item.badge}
+                  </span>
+                )}
               </NavLink>
             );
           })}

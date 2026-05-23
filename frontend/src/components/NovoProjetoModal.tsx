@@ -16,6 +16,7 @@ export const NovoProjetoModal: React.FC<NovoProjetoModalProps> = ({ isOpen, onCl
   const [llmBase, setLlmBase] = useState('Gemini (Flash)');
   const [arquivosCriticos, setArquivosCriticos] = useState('');
   const [regrasEspeciais, setRegrasEspeciais] = useState('');
+  const [antigravityPath, setAntigravityPath] = useState('');
   const [erro, setErro] = useState<string | null>(null);
 
   if (!isOpen) return null;
@@ -43,6 +44,7 @@ export const NovoProjetoModal: React.FC<NovoProjetoModalProps> = ({ isOpen, onCl
         llm_base: llmBase,
         arquivos_criticos: arquivosLista,
         regras_especiais: regrasEspeciais || undefined,
+        antigravity_path: antigravityPath || undefined,
       });
       
       // Limpa os campos e fecha
@@ -53,6 +55,7 @@ export const NovoProjetoModal: React.FC<NovoProjetoModalProps> = ({ isOpen, onCl
       setLlmBase('Gemini (Flash)');
       setArquivosCriticos('');
       setRegrasEspeciais('');
+      setAntigravityPath('');
       onClose();
     } catch (err: any) {
       setErro(err.response?.data?.detail || 'Erro ao criar projeto.');
@@ -184,6 +187,20 @@ export const NovoProjetoModal: React.FC<NovoProjetoModalProps> = ({ isOpen, onCl
               rows={4}
               className="w-full bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#e8ff5a] transition-colors font-mono text-sm resize-none"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-300 mb-2">
+              Caminho do Workspace do Antigravity
+            </label>
+            <input 
+              type="text"
+              value={antigravityPath}
+              onChange={(e) => setAntigravityPath(e.target.value)}
+              placeholder="Ex: C:\Users\hazim\.gemini\antigravity\brain\5ad0e187-e028-499c-ac37-5a230a6c4586"
+              className="w-full bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:border-[#e8ff5a] transition-colors font-mono text-sm"
+            />
+            <p className="text-xs text-gray-500 mt-1 font-mono">Pasta local onde o agente Antigravity salva walkthrough.md e task.md.</p>
           </div>
 
           <div className="flex items-center justify-end gap-4 pt-4 border-t border-[#2a2a2a]">

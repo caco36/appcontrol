@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS projetos (
     llm_base TEXT,
     arquivos_criticos TEXT[],
     regras_especiais TEXT,
+    antigravity_path TEXT,
     criado_em TIMESTAMP DEFAULT NOW(),
     atualizado_em TIMESTAMP DEFAULT NOW()
 );

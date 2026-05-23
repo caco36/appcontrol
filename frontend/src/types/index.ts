@@ -15,6 +15,7 @@ export interface Projeto {
   llm_base?: string;
   arquivos_criticos: string[];
   regras_especiais?: string;
+  antigravity_path?: string;
   criado_em?: string;
   atualizado_em?: string;
   progresso?: number;
@@ -33,7 +34,7 @@ export interface Fase {
 }
 
 export type SessaoStatus = 'sucesso' | 'parcial' | 'falhou';
-export type SessaoFonte = 'manual' | 'extrator';
+export type SessaoFonte = 'manual' | 'extrator' | 'antigravity';
 
 export interface Sessao {
   id: string;

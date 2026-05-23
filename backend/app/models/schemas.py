@@ -28,6 +28,7 @@ class ProjetoCreate(BaseModel):
     llm_base: Optional[str] = None
     arquivos_criticos: List[str] = []
     regras_especiais: Optional[str] = None
+    antigravity_path: Optional[str] = None
 
 class ProjetoUpdate(BaseModel):
     nome: Optional[str] = Field(None, min_length=2, max_length=100)
@@ -37,6 +38,7 @@ class ProjetoUpdate(BaseModel):
     llm_base: Optional[str] = None
     arquivos_criticos: Optional[List[str]] = None
     regras_especiais: Optional[str] = None
+    antigravity_path: Optional[str] = None
 
 class FaseUpdate(BaseModel):
     fases: List[Dict[str, Any]]  # Espera lista de objetos contendo {id, percentual}

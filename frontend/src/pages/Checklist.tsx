@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useProjetosStore } from '../store/projetos';
 import { 
   CheckSquare, Sparkles, Copy, CheckCircle2, AlertCircle, 
-  FileCheck, FileX, ListChecks, ShieldAlert, Terminal, Plus, Trash2, Hash, Flag
+  FileCheck, FileX, ListChecks, ShieldAlert, Terminal, Plus, Trash2, Hash, Flag, Download
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { downloadMarkdown } from '../utils/nomenclatura';
 
 export const Checklist: React.FC = () => {
   const { projetoAtivo } = useProjetosStore();
@@ -51,7 +52,7 @@ export const Checklist: React.FC = () => {
   const handleGerarChecklist = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
 
-    const prompt = `[AppControl v1.0 — Checklist de Tarefa Estruturado]
+    const prompt = `[AppControl v2.0 — Checklist de Tarefa Estruturado]
 PROJETO ATIVO: ${projetoAtivo?.nome || 'Nenhum selecionado'}
 TAREFA # ${numeroTarefa}
 PRIORIDADE: ${prioridade}
@@ -365,19 +366,29 @@ INSTRUÇÕES FINAIS PARA A IA
               <Terminal className="w-5 h-5 text-[#e8ff5a]" /> Checklist Gerado
             </h3>
 
-            <button
-              type="button"
-              onClick={handleCopiar}
-              disabled={!checklistGerado}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg cursor-pointer ${
-                copiado 
-                  ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
-                  : 'bg-[#e8ff5a] text-[#0d0d0d] hover:bg-[#d4eb45] shadow-[#e8ff5a]/10 disabled:opacity-50'
-              }`}
-            >
-              {copiado ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              <span>{copiado ? 'Copiado com Sucesso!' : 'Copiar Tudo'}</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => projetoAtivo && downloadMarkdown('checklist', projetoAtivo.nome, checklistGerado)}
+                disabled={!checklistGerado}
+                className="px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all border border-[#e8ff5a]/30 text-[#e8ff5a] bg-[#e8ff5a]/10 hover:bg-[#e8ff5a] hover:text-[#0d0d0d] disabled:opacity-40 cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" /> Baixar .md
+              </button>
+              <button
+                type="button"
+                onClick={handleCopiar}
+                disabled={!checklistGerado}
+                className={`px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg cursor-pointer ${
+                  copiado 
+                    ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                    : 'bg-[#e8ff5a] text-[#0d0d0d] hover:bg-[#d4eb45] shadow-[#e8ff5a]/10 disabled:opacity-50'
+                }`}
+              >
+                {copiado ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                <span>{copiado ? 'Copiado!' : 'Copiar'}</span>
+              </button>
+            </div>
           </div>
 
           <div className="flex-1 bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-6 relative group min-h-[350px]">

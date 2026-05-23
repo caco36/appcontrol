@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useProjetosStore } from '../store/projetos';
 import { 
   FileText, Sparkles, Copy, CheckCircle2, AlertCircle, 
-  Loader2, RefreshCw, Terminal, Layers
+  Loader2, RefreshCw, Terminal, Layers, Download
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { downloadMarkdown } from '../utils/nomenclatura';
 
 export const Roteiro: React.FC = () => {
   const { projetoAtivo, atualizarFaseUnica, erro } = useProjetosStore();
@@ -48,7 +49,7 @@ export const Roteiro: React.FC = () => {
       return `Fase ${i + 1}: ${f.nome} — [${status}]`;
     }).join('\n');
 
-    const prompt = `[AppControl v1.0 — Roteiro de Execução / Roadmap Ativo]
+    const prompt = `[AppControl v2.0 — Roteiro de Execução / Roadmap Ativo]
 PROJETO ATIVO: ${projetoAtivo.nome}
 TIPO: ${projetoAtivo.tipo}
 PROGRESSO GERAL: ${projetoAtivo.progresso || 0}%
@@ -212,19 +213,29 @@ INSTRUÇÕES E PROTOCOLO PARA A IA (SESSÃO ATUAL)
               <Terminal className="w-5 h-5 text-[#e8ff5a]" /> Prompt de Roteiro Gerado
             </h3>
 
-            <button
-              type="button"
-              onClick={handleCopiar}
-              disabled={!roteiroGerado}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg cursor-pointer ${
-                copiado 
-                  ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
-                  : 'bg-[#e8ff5a] text-[#0d0d0d] hover:bg-[#d4eb45] shadow-[#e8ff5a]/10 disabled:opacity-50'
-              }`}
-            >
-              {copiado ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              <span>{copiado ? 'Copiado com Sucesso!' : 'Copiar Tudo'}</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => projetoAtivo && downloadMarkdown('roteiro', projetoAtivo.nome, roteiroGerado)}
+                disabled={!roteiroGerado}
+                className="px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all border border-[#e8ff5a]/30 text-[#e8ff5a] bg-[#e8ff5a]/10 hover:bg-[#e8ff5a] hover:text-[#0d0d0d] disabled:opacity-40 cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" /> Baixar .md
+              </button>
+              <button
+                type="button"
+                onClick={handleCopiar}
+                disabled={!roteiroGerado}
+                className={`px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg cursor-pointer ${
+                  copiado 
+                    ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                    : 'bg-[#e8ff5a] text-[#0d0d0d] hover:bg-[#d4eb45] shadow-[#e8ff5a]/10 disabled:opacity-50'
+                }`}
+              >
+                {copiado ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                <span>{copiado ? 'Copiado!' : 'Copiar'}</span>
+              </button>
+            </div>
           </div>
 
           <div className="flex-1 bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-6 relative group flex flex-col justify-center">

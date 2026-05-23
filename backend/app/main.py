@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import auth, projetos, extrator
+from app.routers import auth, projetos, extrator, sync, validador, saude, briefing, erros_aprendidos
 
 app = FastAPI(
-    title="AppControl v1.0 API",
+    title="AppControl v2.0 API",
     description="API de gerenciamento do ciclo de desenvolvimento de aplicativos com IA",
-    version="1.0.0"
+    version="2.0.0"
 )
 
 import os
@@ -27,6 +27,11 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/api/auth", tags=["Autenticação"])
 app.include_router(projetos.router, prefix="/api/projetos", tags=["Projetos"])
 app.include_router(extrator.router, prefix="/api/extrator", tags=["Extrator IA"])
+app.include_router(sync.router, prefix="/api/sync", tags=["Sincronização"])
+app.include_router(validador.router, prefix="/api/validador", tags=["Validador"])
+app.include_router(saude.router, prefix="/api/saude", tags=["Saúde"])
+app.include_router(briefing.router, prefix="/api/briefing", tags=["Briefing"])
+app.include_router(erros_aprendidos.router, prefix="/api/erros-aprendidos", tags=["Erros Aprendidos"])
 
 @app.get("/health", summary="Verificação de Saúde da API")
 async def health_check():

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useProjetosStore } from '../store/projetos';
 import { 
   Eye, Sparkles, Copy, CheckCircle2, AlertCircle, 
-  PlayCircle, CheckSquare2, AlertOctagon, Terminal 
+  PlayCircle, CheckSquare2, AlertOctagon, Terminal, Download
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { downloadMarkdown } from '../utils/nomenclatura';
 
 export const Vistoria: React.FC = () => {
   const { projetoAtivo } = useProjetosStore();
@@ -17,7 +18,7 @@ export const Vistoria: React.FC = () => {
     let prompt = '';
 
     if (tipo === 'PRE') {
-      prompt = `[AppControl v1.0 — Vistoria PRÉ-Sessão Inicial]
+      prompt = `[AppControl v2.0 — Vistoria PRÉ-Sessão Inicial]
 PROJETO ATIVO: ${projetoAtivo?.nome || 'Nenhum selecionado'}
 TIPO: ${projetoAtivo?.tipo || 'N/A'}
 STACK FRONTEND: ${projetoAtivo?.stack_fe || 'Não especificada'}
@@ -36,7 +37,7 @@ CHECKLIST DE VERIFICAÇÃO PRÉVIA (INSTRUÇÃO PARA A IA)
 3. Identifique quaisquer dependências ou pacotes que possam estar faltando antes de propro novos códigos.
 4. Aguarde o 'OK' explícito do desenvolvedor antes de executar qualquer alteração.`;
     } else if (tipo === 'POS') {
-      prompt = `[AppControl v1.0 — Vistoria PÓS-Sessão de Fechamento]
+      prompt = `[AppControl v2.0 — Vistoria PÓS-Sessão de Fechamento]
 PROJETO ATIVO: ${projetoAtivo?.nome || 'Nenhum selecionado'}
 TIPO: ${projetoAtivo?.tipo || 'N/A'}
 
@@ -53,7 +54,7 @@ CHECKLIST DE VERIFICAÇÃO PÓS (INSTRUÇÃO PARA A IA)
 3. Confirme que não foram deixados códigos mortos, comentários de TODO desnecessários ou mocks temporários.
 4. Apresente um resumo claro de tudo o que foi feito para ser salvo no Histórico de Sessões do AppControl.`;
     } else {
-      prompt = `[AppControl v1.0 — Vistoria de EMERGÊNCIA / Resgate de Contexto]
+      prompt = `[AppControl v2.0 — Vistoria de EMERGÊNCIA / Resgate de Contexto]
 PROJETO ATIVO: ${projetoAtivo?.nome || 'Nenhum selecionado'}
 TIPO: ${projetoAtivo?.tipo || 'N/A'}
 
@@ -214,19 +215,29 @@ PROTOCOLO DE RESGATE IMEDIATO
               <Terminal className="w-5 h-5 text-[#e8ff5a]" /> Prompt de Vistoria Gerado
             </h3>
 
-            <button
-              type="button"
-              onClick={handleCopiar}
-              disabled={!vistoriaGerada}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg cursor-pointer ${
-                copiado 
-                  ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
-                  : 'bg-[#e8ff5a] text-[#0d0d0d] hover:bg-[#d4eb45] shadow-[#e8ff5a]/10 disabled:opacity-50'
-              }`}
-            >
-              {copiado ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              <span>{copiado ? 'Copiado com Sucesso!' : 'Copiar Tudo'}</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => projetoAtivo && downloadMarkdown('vistoria', projetoAtivo.nome, vistoriaGerada)}
+                disabled={!vistoriaGerada}
+                className="px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all border border-[#e8ff5a]/30 text-[#e8ff5a] bg-[#e8ff5a]/10 hover:bg-[#e8ff5a] hover:text-[#0d0d0d] disabled:opacity-40 cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" /> Baixar .md
+              </button>
+              <button
+                type="button"
+                onClick={handleCopiar}
+                disabled={!vistoriaGerada}
+                className={`px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg cursor-pointer ${
+                  copiado 
+                    ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                    : 'bg-[#e8ff5a] text-[#0d0d0d] hover:bg-[#d4eb45] shadow-[#e8ff5a]/10 disabled:opacity-50'
+                }`}
+              >
+                {copiado ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                <span>{copiado ? 'Copiado!' : 'Copiar'}</span>
+              </button>
+            </div>
           </div>
 
           <div className="flex-1 bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-6 relative group flex flex-col justify-center">

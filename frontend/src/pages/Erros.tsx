@@ -2,9 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { useProjetosStore } from '../store/projetos';
 import { 
   AlertOctagon, Sparkles, Copy, CheckCircle2, AlertCircle, 
-  Search, Filter, Terminal, FileCode, CheckSquare, Square, ArrowRight, Bug
+  Search, Filter, Terminal, FileCode, CheckSquare, Square, ArrowRight, Bug, Download
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { downloadMarkdown } from '../utils/nomenclatura';
 
 export const Erros: React.FC = () => {
   const { projetoAtivo } = useProjetosStore();
@@ -71,7 +72,7 @@ ${e.solucao || 'Nenhuma solução cadastrada ainda'}
 --------------------------------------------------------------------------------`;
     }).join('\n\n');
 
-    const prompt = `[AppControl v1.0 — Diagnóstico de Falhas e Resolução de Erros]
+    const prompt = `[AppControl v2.0 — Diagnóstico de Falhas e Resolução de Erros]
 PROJETO ATIVO: ${projetoAtivo.nome}
 TIPO: ${projetoAtivo.tipo}
 STACK FRONTEND: ${projetoAtivo.stack_fe || 'N/A'}
@@ -290,19 +291,29 @@ DIRETRIZES PARA A RESPOSTA DA IA
               <Terminal className="w-5 h-5 text-[#e8ff5a]" /> Prompt de Correção Gerado
             </h3>
 
-            <button
-              type="button"
-              onClick={handleCopiar}
-              disabled={!promptCorrecao}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg cursor-pointer ${
-                copiado 
-                  ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
-                  : 'bg-[#e8ff5a] text-[#0d0d0d] hover:bg-[#d4eb45] shadow-[#e8ff5a]/10 disabled:opacity-50'
-              }`}
-            >
-              {copiado ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              <span>{copiado ? 'Copiado com Sucesso!' : 'Copiar Tudo'}</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => projetoAtivo && downloadMarkdown('erros', projetoAtivo.nome, promptCorrecao)}
+                disabled={!promptCorrecao}
+                className="px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all border border-[#e8ff5a]/30 text-[#e8ff5a] bg-[#e8ff5a]/10 hover:bg-[#e8ff5a] hover:text-[#0d0d0d] disabled:opacity-40 cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" /> Baixar .md
+              </button>
+              <button
+                type="button"
+                onClick={handleCopiar}
+                disabled={!promptCorrecao}
+                className={`px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg cursor-pointer ${
+                  copiado 
+                    ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                    : 'bg-[#e8ff5a] text-[#0d0d0d] hover:bg-[#d4eb45] shadow-[#e8ff5a]/10 disabled:opacity-50'
+                }`}
+              >
+                {copiado ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                <span>{copiado ? 'Copiado!' : 'Copiar'}</span>
+              </button>
+            </div>
           </div>
 
           <div className="flex-1 bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-6 relative group flex flex-col justify-center">

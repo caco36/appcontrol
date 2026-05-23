@@ -5,6 +5,7 @@ import { FolderPlus, FolderKanban, Sparkles, Loader2, AlertCircle } from 'lucide
 import { ProjetoCard } from '../components/ProjetoCard';
 import { NovoProjetoModal } from '../components/NovoProjetoModal';
 import { useNavigate } from 'react-router-dom';
+import { projetosService } from '../services/projetos';
 
 export const Dashboard: React.FC = () => {
   const { usuario } = useAuthStore();
@@ -12,9 +13,28 @@ export const Dashboard: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
+  const [saudeDashboard, setSaudeDashboard] = useState<any | null>(null);
+  const [_carregandoSaude, setCarregandoSaude] = useState(false);
+
   useEffect(() => {
     listar();
   }, [listar]);
+
+  useEffect(() => {
+    const carregarSaudeDashboard = async () => {
+      if (projetos.length === 0) return;
+      setCarregandoSaude(true);
+      try {
+        const res = await projetosService.obterSaudeDashboard();
+        setSaudeDashboard(res);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setCarregandoSaude(false);
+      }
+    };
+    carregarSaudeDashboard();
+  }, [projetos]);
 
   const handleSelecionar = async (id: string) => {
     await selecionarProjeto(id);
@@ -36,10 +56,58 @@ export const Dashboard: React.FC = () => {
             Olá, <span className="text-[#e8ff5a]">{usuario?.nome || 'Desenvolvedor'}</span>
           </h2>
           <p className="text-gray-400 text-sm leading-relaxed font-mono">
-            Bem-vindo ao AppControl v1.0. A sua plataforma central para gerenciar o ciclo de desenvolvimento de software com Inteligência Artificial.
+            Bem-vindo ao AppControl v2.0. A sua plataforma central para gerenciar o ciclo de desenvolvimento de software com Inteligência Artificial.
           </p>
         </div>
       </div>
+
+      {/* Indicadores de Saúde Globais */}
+      {saudeDashboard && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
+          <div className="bg-[#1a1a1a] border border-[#2a2a2a] p-6 rounded-2xl space-y-3 relative overflow-hidden">
+            <div className="text-gray-500 font-bold uppercase tracking-wider">Status Geral de Risco</div>
+            <div className="flex items-center gap-3">
+              <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase border ${
+                saudeDashboard.nivel_risco_geral === 'ALTO' ? 'bg-red-500/10 text-red-400 border-red-500/20 animate-pulse' :
+                saudeDashboard.nivel_risco_geral === 'MÉDIO' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
+                'bg-green-500/10 text-green-400 border-green-500/20'
+              }`}>
+                {saudeDashboard.nivel_risco_geral}
+              </span>
+            </div>
+            <p className="text-[10px] text-gray-500">Determinado automaticamente pelos erros e sincronizações</p>
+          </div>
+
+          <div className="bg-[#1a1a1a] border border-[#2a2a2a] p-6 rounded-2xl space-y-3">
+            <div className="text-gray-400 font-bold uppercase tracking-wider">Média de Confiança</div>
+            <div className="text-2xl font-bold text-[#e8ff5a]">{saudeDashboard.score_medio_confianca}%</div>
+            <p className="text-[10px] text-gray-500">Média ponderada do score de estabilidade da IA</p>
+          </div>
+
+          <div className="bg-[#1a1a1a] border border-[#2a2a2a] p-6 rounded-2xl space-y-3">
+            <div className="text-gray-400 font-bold uppercase tracking-wider">Erros Ativos Gerais</div>
+            <div className="text-2xl font-bold text-red-500">{saudeDashboard.total_erros_ativos}</div>
+            <p className="text-[10px] text-gray-500">Total de inconsistências acumuladas no Workspace</p>
+          </div>
+        </div>
+      )}
+
+      {/* Alertas Globais */}
+      {saudeDashboard && saudeDashboard.alertas_globais && saudeDashboard.alertas_globais.length > 0 && (
+        <div className="bg-red-500/5 border border-red-500/10 p-6 rounded-2xl space-y-3">
+          <h4 className="text-sm font-bold text-red-400 font-mono uppercase tracking-wider flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" /> Alertas Críticos de IA (Workspace)
+          </h4>
+          <div className="space-y-2">
+            {saudeDashboard.alertas_globais.map((alertaItem: any, idx: number) => (
+              <div key={idx} className="text-xs text-red-300 font-mono flex items-start gap-2 bg-red-500/10 p-3 rounded-lg border border-red-500/20 animate-fade-in">
+                <span className="font-bold text-red-400 shrink-0">[{alertaItem.projeto_nome}]:</span>
+                <span>{alertaItem.alerta}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {erro && (
         <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-3 text-red-400 text-sm">

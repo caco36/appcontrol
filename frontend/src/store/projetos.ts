@@ -12,6 +12,7 @@ interface ProjetosState {
   listar: () => Promise<void>;
   criar: (dados: ProjetoCreateParams) => Promise<Projeto>;
   selecionarProjeto: (id: string) => Promise<void>;
+  recarregarProjetoSilencioso: (id: string) => Promise<void>;
   atualizarProjeto: (id: string, dados: Partial<ProjetoCreateParams>) => Promise<Projeto>;
   atualizarFases: (fases: { id: string; percentual: number }[]) => Promise<void>;
   atualizarFaseUnica: (faseId: string, percentual: number) => Promise<void>;
@@ -63,6 +64,15 @@ export const useProjetosStore = create<ProjetosState>()(
           const mensagem = error.response?.data?.detail || 'Erro ao carregar detalhes do projeto.';
           set({ erro: mensagem, loading: false });
           throw error;
+        }
+      },
+
+      recarregarProjetoSilencioso: async (id) => {
+        try {
+          const projeto = await projetosService.obter(id);
+          set({ projetoAtivo: projeto });
+        } catch (error) {
+          console.error('Erro ao recarregar projeto silenciosamente:', error);
         }
       },
 

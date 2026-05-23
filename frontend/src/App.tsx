@@ -13,6 +13,8 @@ import { Roteiro } from './pages/Roteiro';
 import { Historico } from './pages/Historico';
 import { Erros } from './pages/Erros';
 import { FonteDeVerdade } from './pages/FonteDeVerdade';
+import { Mapa } from './pages/Mapa';
+import { Briefing } from './pages/Briefing';
 import { Layout } from './components/Layout';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
@@ -129,6 +131,26 @@ export const App: React.FC = () => {
             <ProtectedRoute>
               <Layout>
                 <FonteDeVerdade />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mapa"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Mapa />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/briefing"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Briefing />
               </Layout>
             </ProtectedRoute>
           }

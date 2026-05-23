@@ -2,6 +2,8 @@ import React from 'react';
 import { Projeto } from '../types';
 import { FolderKanban, Layers, Calendar, Activity, ArrowRight, Sparkles, Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { projetosService } from '../services/projetos';
+import { downloadMarkdown } from '../utils/nomenclatura';
 
 interface ProjetoCardProps {
   projeto: Projeto;
@@ -75,13 +77,29 @@ export const ProjetoCard: React.FC<ProjetoCardProps> = ({ projeto, isAtivo, onSe
           <Calendar className="w-3.5 h-3.5 text-purple-400" /> {sessoesCount} {sessoesCount === 1 ? 'Sessão' : 'Sessões'}
         </span>
         
-        <Link 
-          to={`/projetos/${projeto.id}`}
-          onClick={(e) => e.stopPropagation()} // Para não disparar o onSelecionar duas vezes
-          className="text-[#e8ff5a] hover:underline flex items-center gap-1 font-sans font-semibold"
-        >
-          Gerenciar <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={async (e) => {
+              e.stopPropagation();
+              try {
+                const res = await projetosService.gerarBriefing(projeto.id);
+                downloadMarkdown('briefing', projeto.nome, res.briefing_markdown);
+              } catch (err) {
+                console.error(err);
+              }
+            }}
+            className="text-[10px] text-gray-400 hover:text-[#e8ff5a] font-sans font-bold border border-[#2a2a2a] px-2.5 py-1.5 rounded-lg bg-[#0d0d0d] hover:bg-[#1a1a1a] transition-all cursor-pointer flex items-center gap-1"
+          >
+            Briefing
+          </button>
+          <Link 
+            to={`/projetos/${projeto.id}`}
+            onClick={(e) => e.stopPropagation()} // Para não disparar o onSelecionar duas vezes
+            className="text-[#e8ff5a] hover:underline flex items-center gap-1 font-sans font-semibold"
+          >
+            Gerenciar <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
       </div>
     </div>
   );
