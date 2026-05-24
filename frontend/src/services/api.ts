@@ -25,3 +25,29 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Interceptor de Resposta (A Barreira 1 - O Escudo)
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error.response?.status;
+    const url = error.config?.url || '';
+
+    // Risco 1 evitado: A trava anti-loop. Ignora endpoints de login/cadastro.
+    const isAuthRoute = url.includes('/login') || url.includes('/cadastro') || url.includes('supabase');
+
+    if ((status === 401 || status === 403) && !isAuthRoute) {
+      console.warn('Escudo Ativado: Acesso Negado (401/403). Ejetando usuário...');
+      
+      // Limpa a memória física do Zustand no cache do navegador
+      localStorage.removeItem('appcontrol-auth-storage');
+      
+      // Redireciona o usuário (O reload limpa toda a RAM instantaneamente)
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);

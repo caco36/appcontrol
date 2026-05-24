@@ -17,6 +17,7 @@ import { Mapa } from './pages/Mapa';
 import { Briefing } from './pages/Briefing';
 import { Layout } from './components/Layout';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { IdleTracker } from './components/IdleTracker';
 
 export const App: React.FC = () => {
   const { carregarSessao } = useAuthStore();
@@ -29,6 +30,7 @@ export const App: React.FC = () => {
 
   return (
     <BrowserRouter>
+      <IdleTracker />
       <Routes>
         {/* Rotas Públicas */}
         <Route path="/login" element={<Login />} />
