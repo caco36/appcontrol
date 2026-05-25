@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { useAuthStore } from '../store/auth';
 
-// TESTE RADICAL: Timeout de apenas 10 segundos
-const FALLBACK_TIMEOUT_MS = 10 * 1000;
+// Constante de Fallback (Padrão de Segurança) - 30 minutos em milissegundos
+const FALLBACK_TIMEOUT_MS = 30 * 60 * 1000;
 
 export const IdleTracker: React.FC = () => {
   const { token, logout } = useAuthStore();
@@ -58,7 +58,7 @@ export const IdleTracker: React.FC = () => {
     };
     window.addEventListener('storage', handleStorageChange);
 
-    // O relógio regressivo do Vigia para o teste: checa a cada 2 segundos
+    // O relógio regressivo do Vigia checa a cada 10 segundos
     checkIntervalRef.current = setInterval(() => {
       const now = Date.now();
       const timeSinceLastActivity = now - lastActivityRef.current;
@@ -66,7 +66,7 @@ export const IdleTracker: React.FC = () => {
       if (timeSinceLastActivity > timeoutLimit) {
         handleTimeout();
       }
-    }, 2000);
+    }, 10000);
 
     // Cleanup (Limpeza) para evitar Zumbis
     return () => {
