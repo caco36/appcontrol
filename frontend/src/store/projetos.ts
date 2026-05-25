@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Projeto } from '../types';
 import { projetosService, ProjetoCreateParams } from '../services/projetos';
+import { useAuthStore } from './auth';
 
 interface ProjetosState {
   projetos: Projeto[];
@@ -33,6 +34,11 @@ export const useProjetosStore = create<ProjetosState>()(
           const projetos = await projetosService.listar();
           set({ projetos, loading: false });
         } catch (error: any) {
+          const status = error.response?.status;
+          if (status === 401 || status === 403) {
+             useAuthStore.getState().logout();
+             window.location.replace('/login');
+          }
           const mensagem = error.response?.data?.detail || 'Erro ao carregar lista de projetos.';
           set({ erro: mensagem, loading: false });
         }

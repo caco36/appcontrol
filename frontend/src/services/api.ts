@@ -11,18 +11,13 @@ export const api = axios.create({
   },
 });
 
-// Interceptor para adicionar token de autenticação persistido
+// Interceptor para adicionar token de autenticação
 api.interceptors.request.use((config) => {
-  const storageStr = localStorage.getItem('appcontrol-auth-storage');
-  if (storageStr) {
-    try {
-      const { state } = JSON.parse(storageStr);
-      if (state?.token) {
-        config.headers.Authorization = `Bearer ${state.token}`;
-      }
-    } catch (e) {
-      console.error('Erro ao ler token do localStorage no interceptor', e);
-    }
+  // Lemos o token DIRETAMENTE da memória do estado, que é 100% síncrona
+  // Isso evita o bug onde o Zustand ainda não salvou o token novo no disco (localStorage)
+  const token = useAuthStore.getState().token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
