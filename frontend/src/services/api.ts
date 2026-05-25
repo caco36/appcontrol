@@ -26,6 +26,8 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+let isNavigatingToLogin = false;
+
 // Interceptor de Resposta (A Barreira 1 - O Escudo)
 api.interceptors.response.use(
   (response) => response,
@@ -42,9 +44,14 @@ api.interceptors.response.use(
       // Limpa a memória física do Zustand no cache do navegador
       localStorage.removeItem('appcontrol-auth-storage');
       
-      // Redireciona o usuário (O reload limpa toda a RAM instantaneamente)
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
+      // Risco de Múltiplos Requests (Anti-Spam de Navegação)
+      if (!isNavigatingToLogin && window.location.pathname !== '/login') {
+        isNavigatingToLogin = true;
+        
+        // Timeout zero garante que o JS termine de renderizar a pilha atual antes de forçar o unload
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 100);
       }
     }
 
