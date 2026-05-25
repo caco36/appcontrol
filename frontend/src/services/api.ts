@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useAuthStore } from '../store/auth';
 
 const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const API_BASE_URL = rawApiUrl.replace(/\/+$/, '');
@@ -39,19 +40,19 @@ api.interceptors.response.use(
     const isAuthRoute = url.includes('/login') || url.includes('/cadastro') || url.includes('supabase');
 
     if ((status === 401 || status === 403) && !isAuthRoute) {
-      console.warn('Escudo Ativado: Acesso Negado (401/403). Ejetando usuário...');
+      console.warn('Escudo Ativado: Acesso Negado (401/403). Ejetando usuário via React Router...');
       
-      // Limpa a memória física do Zustand no cache do navegador
+      // Limpa a memória do cache
       localStorage.removeItem('appcontrol-auth-storage');
       
-      // Risco de Múltiplos Requests (Anti-Spam de Navegação)
+      // Risco de Múltiplos Requests evitado
       if (!isNavigatingToLogin && window.location.pathname !== '/login') {
         isNavigatingToLogin = true;
         
-        // Timeout zero garante que o JS termine de renderizar a pilha atual antes de forçar o unload
-        setTimeout(() => {
-          window.location.href = '/login';
-        }, 100);
+        // Força a remoção do token DIRETAMENTE na memória do React.
+        // Isso faz o componente <ProtectedRoute> re-renderizar e disparar o <Navigate to="/login" replace />
+        // É impossível o navegador bloquear isso, pois é navegação interna do React Router!
+        useAuthStore.setState({ token: null, usuario: null, erro: 'Sua sessão expirou. Faça login novamente.' });
       }
     }
 
