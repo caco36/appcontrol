@@ -27,8 +27,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-let isNavigatingToLogin = false;
-
 // Interceptor de Resposta (A Barreira 1 - O Escudo)
 api.interceptors.response.use(
   (response) => response,
@@ -42,16 +40,13 @@ api.interceptors.response.use(
     if ((status === 401 || status === 403) && !isAuthRoute) {
       console.warn('Escudo Ativado: Acesso Negado (401/403). Ejetando usuário via React Router...');
       
-      // Limpa a memória do cache
+      // Limpa a memória do cache imediatamente
       localStorage.removeItem('appcontrol-auth-storage');
       
-      // Risco de Múltiplos Requests evitado
-      if (!isNavigatingToLogin && window.location.pathname !== '/login') {
-        isNavigatingToLogin = true;
-        
-        // Força a remoção do token DIRETAMENTE na memória do React.
-        // Isso faz o componente <ProtectedRoute> re-renderizar e disparar o <Navigate to="/login" replace />
-        // É impossível o navegador bloquear isso, pois é navegação interna do React Router!
+      // Força a remoção do token DIRETAMENTE na memória do React.
+      // O React processa atualizações de estado em lote (batching), então mesmo se 3 requisições
+      // falharem juntas, o Zustand só re-renderiza o <ProtectedRoute> uma vez!
+      if (useAuthStore.getState().token !== null) {
         useAuthStore.setState({ token: null, usuario: null, erro: 'Sua sessão expirou. Faça login novamente.' });
       }
     }
