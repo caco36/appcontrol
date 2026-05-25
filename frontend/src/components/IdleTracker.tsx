@@ -5,7 +5,7 @@ import { useAuthStore } from '../store/auth';
 const FALLBACK_TIMEOUT_MS = 10 * 1000;
 
 export const IdleTracker: React.FC = () => {
-  const { token, usuario, logout } = useAuthStore();
+  const { token, logout } = useAuthStore();
   
   // Aqui buscaríamos o timeout_inatividade real do banco (futuro)
   const timeoutLimit = FALLBACK_TIMEOUT_MS; 
