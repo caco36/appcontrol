@@ -44,6 +44,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const navItems = [
     { to: '/', label: 'Projetos', icon: FolderKanban },
+    { to: '/ajuda', label: 'Ajuda e Manual', icon: Info },
     { to: '/mapa', label: 'Mapa', icon: Map },
     { to: '/extrator', label: 'Extrator IA', icon: Cpu },
     { to: '/guard-prompt', label: 'Guard Prompt', icon: ShieldCheck },
@@ -54,7 +55,6 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     { to: '/erros', label: 'Log de Erros', icon: AlertOctagon, badge: erroCount > 0 ? erroCount : undefined },
     { to: '/briefing', label: 'Briefing', icon: BookOpen },
     { to: '/fonte-de-verdade', label: 'Fonte de Verdade', icon: Sparkles },
-    { to: '/ajuda', label: 'Ajuda e Manual', icon: Info },
   ];
 
   return (
