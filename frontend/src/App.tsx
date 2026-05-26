@@ -15,6 +15,7 @@ import { Erros } from './pages/Erros';
 import { FonteDeVerdade } from './pages/FonteDeVerdade';
 import { Mapa } from './pages/Mapa';
 import { Briefing } from './pages/Briefing';
+import { Ajuda } from './pages/Ajuda';
 import { Layout } from './components/Layout';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { IdleTracker } from './components/IdleTracker';
@@ -153,6 +154,17 @@ export const App: React.FC = () => {
             <ProtectedRoute>
               <Layout>
                 <Briefing />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/ajuda"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Ajuda />
               </Layout>
             </ProtectedRoute>
           }

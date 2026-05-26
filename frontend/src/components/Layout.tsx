@@ -15,7 +15,8 @@ import {
   Zap,
   Sparkles,
   Map,
-  BookOpen
+  BookOpen,
+  Info
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -53,6 +54,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     { to: '/erros', label: 'Log de Erros', icon: AlertOctagon, badge: erroCount > 0 ? erroCount : undefined },
     { to: '/briefing', label: 'Briefing', icon: BookOpen },
     { to: '/fonte-de-verdade', label: 'Fonte de Verdade', icon: Sparkles },
+    { to: '/ajuda', label: 'Ajuda e Manual', icon: Info },
   ];
 
   return (
