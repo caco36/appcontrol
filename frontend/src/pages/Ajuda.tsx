@@ -54,10 +54,33 @@ export const Ajuda: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           
           {/* Card Guard Prompt */}
-          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5">
-            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><ShieldCheck className="w-4 h-4 text-green-400" /> Guard Prompt (A Planta Baixa)</h3>
-            <p className="text-xs text-gray-400 leading-relaxed mb-2"><strong>O Problema:</strong> O pedreiro (IA) tem Alzheimer grave. Toda vez que você abre um "Novo Chat" com ele, ele não lembra de nada do que construiu ontem e vai tentar inventar um telhado que não cabe nas paredes.</p>
-            <p className="text-xs text-gray-400 leading-relaxed"><strong>A Solução:</strong> Clique para gerar o Guard Prompt. Ele cria um textão contendo a Planta Baixa inteira da obra. Copie esse texto e cole como primeira mensagem no chat novo. O pedreiro vai ler, "lembrar" de tudo e fazer o trabalho sem destruir o que já foi feito.</p>
+          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5 md:col-span-2">
+            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><ShieldCheck className="w-5 h-5 text-green-400" /> Guard Prompt (A Planta Baixa)</h3>
+            <p className="text-sm text-gray-400 leading-relaxed mb-4"><strong>O Problema:</strong> O pedreiro (IA) tem Alzheimer. Toda vez que você abre um "Novo Chat" com ele, ele não lembra de nada do projeto.</p>
+            
+            <div className="bg-[#1a1a1a] p-4 rounded-lg mb-4">
+              <h4 className="text-xs font-bold text-gray-300 uppercase mb-2">O que tem dentro do Prompt? (Os Detalhes)</h4>
+              <p className="text-xs text-gray-400 mb-2">O sistema vai no banco de dados e junta 5 blocos de informação em um único textão:</p>
+              <ul className="list-disc list-inside text-xs text-gray-400 space-y-1">
+                <li>O Contexto do projeto e a Stack Tecnológica (Ex: React, Node).</li>
+                <li>As Leis Primordiais que você escreveu.</li>
+                <li>O andamento atual das fases (O Roadmap).</li>
+                <li>A lista dos Arquivos Críticos mapeados no disco.</li>
+                <li>O Log de Erros (para a IA não repetir as mesmas burradas).</li>
+              </ul>
+            </div>
+
+            <div className="bg-[#1a1a1a] p-4 rounded-lg border-l-2 border-green-500">
+              <h4 className="text-xs font-bold text-green-400 uppercase mb-2">Passo a Passo (Como usar na prática)</h4>
+              <ol className="list-decimal list-inside text-xs text-gray-300 space-y-2 font-mono">
+                <li>Acesse o menu lateral <strong>Guard Prompt</strong> ou <strong>Briefing</strong>.</li>
+                <li>Clique no botão amarelo <strong>Gerar Briefing Completo</strong>.</li>
+                <li>O sistema vai compilar o texto. Clique em <strong>Copiar</strong>.</li>
+                <li>Abra uma conversa VAZIA (Novo Chat) no ChatGPT, Claude ou Cursor.</li>
+                <li>Cole esse texto gigante e mande. A IA vai ler e "lembrar" de tudo.</li>
+                <li>Aguarde a IA responder "Entendido". Só então, faça seu pedido de código.</li>
+              </ol>
+            </div>
           </div>
 
           {/* Card Extrator */}
