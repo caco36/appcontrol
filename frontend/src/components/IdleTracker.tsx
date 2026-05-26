@@ -11,7 +11,7 @@ export const IdleTracker: React.FC = () => {
   const timeoutLimit = FALLBACK_TIMEOUT_MS; 
 
   const lastActivityRef = useRef<number>(Date.now());
-  const checkIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const checkIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Função para deslogar
   const handleTimeout = useCallback(async () => {
