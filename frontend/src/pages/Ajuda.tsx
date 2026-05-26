@@ -61,7 +61,8 @@ export const Ajuda: React.FC = () => {
           {/* Card Guard Prompt */}
           <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5">
             <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><ShieldCheck className="w-4 h-4 text-green-400" /> Guard Prompt</h3>
-            <p className="text-xs text-gray-400 leading-relaxed"><strong>Para que serve:</strong> Principal defesa contra a "Amnésia" da IA. <strong>Uso:</strong> Gere um "Prompt Master" contendo o estado atual do projeto antes de abrir uma nova conversa com IAs.</p>
+            <p className="text-xs text-gray-400 leading-relaxed mb-2"><strong>Para que serve:</strong> Evitar que o ChatGPT ou Claude "esqueçam" como o seu aplicativo é feito.</p>
+            <p className="text-xs text-gray-400 leading-relaxed"><strong>Quando e Como usar:</strong> Sabe quando você abre uma conversa nova no ChatGPT para pedir um código, e ele te manda o código na linguagem errada ou ignorando o banco de dados que vocês combinaram ontem? Sempre que você for abrir uma <strong>nova conversa</strong> com qualquer IA, você vem aqui, clica em gerar, e ele vai criar um texto gigante. Você <strong>copia e cola esse texto na IA</strong> como sua primeira mensagem. Assim, a IA lê o texto e já sabe exatamente em que pé o projeto está, quais as regras, e não comete erros estúpidos.</p>
           </div>
 
           {/* Card Checklist */}
