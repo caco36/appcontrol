@@ -84,34 +84,104 @@ export const Ajuda: React.FC = () => {
           </div>
 
           {/* Card Extrator */}
-          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5">
-            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><Cpu className="w-4 h-4 text-blue-400" /> Extrator IA (O Tradutor)</h3>
-            <p className="text-xs text-gray-400 leading-relaxed mb-2"><strong>O Problema:</strong> Você pegou um código gigantesco na internet ou de outro desenvolvedor e não faz ideia do que ele faz.</p>
-            <p className="text-xs text-gray-400 leading-relaxed"><strong>A Solução:</strong> Jogue o arquivo de código no Extrator. Ele mastiga o código e te cospe um resumo em português claro dizendo exatamente para que aquele código serve e como usá-lo.</p>
+          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5 md:col-span-2">
+            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><Cpu className="w-5 h-5 text-blue-400" /> Extrator IA (O Tradutor)</h3>
+            <p className="text-sm text-gray-400 leading-relaxed mb-4"><strong>O Problema:</strong> Você pegou um código gigantesco na internet ou de outro desenvolvedor e não faz ideia do que ele faz nem por onde começar a ler.</p>
+            
+            <div className="bg-[#1a1a1a] p-4 rounded-lg mb-4">
+              <h4 className="text-xs font-bold text-gray-300 uppercase mb-2">Os Detalhes (O que ele mastiga?)</h4>
+              <p className="text-xs text-gray-400 mb-2">Você joga o código bruto e a IA isola três coisas cirúrgicas para você:</p>
+              <ul className="list-disc list-inside text-xs text-gray-400 space-y-1">
+                <li><strong>Regras de Negócio:</strong> "Esse código calcula a taxa de juros se atrasar 5 dias".</li>
+                <li><strong>Rotas:</strong> "Esse código tenta conversar com a URL /api/usuarios".</li>
+                <li><strong>Dependências:</strong> "Você precisa instalar a biblioteca X para isso rodar".</li>
+              </ul>
+            </div>
+
+            <div className="bg-[#1a1a1a] p-4 rounded-lg border-l-2 border-blue-500">
+              <h4 className="text-xs font-bold text-blue-400 uppercase mb-2">Passo a Passo Prático</h4>
+              <ol className="list-decimal list-inside text-xs text-gray-300 space-y-2 font-mono">
+                <li>Vá no menu lateral <strong>Extrator IA</strong>.</li>
+                <li>No campo da esquerda, cole o arquivo de código cru.</li>
+                <li>Clique no botão de <strong>Analisar / Extrair</strong>.</li>
+                <li>O painel da direita vai se preencher com o resumo mastigado em português.</li>
+              </ol>
+            </div>
           </div>
 
           {/* Card Checklist */}
-          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5">
-            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><CheckSquare className="w-4 h-4 text-purple-400" /> Checklist & Mapa (O Cronograma)</h3>
-            <p className="text-xs text-gray-400 leading-relaxed"><strong>O Problema:</strong> A IA tenta pintar a parede antes de colocar os tijolos. <br/><br/><strong>A Solução:</strong> O Mapa divide sua obra em 6 fases obrigatórias (Fundação, Backend, Frontend...). Você acompanha o andamento em barras de porcentagem para garantir que a IA não pule etapas.</p>
+          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5 md:col-span-2">
+            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><CheckSquare className="w-5 h-5 text-purple-400" /> Checklist & Mapa (O Cronograma)</h3>
+            <p className="text-sm text-gray-400 leading-relaxed mb-4"><strong>O Problema:</strong> A IA tenta pintar a parede antes de colocar os tijolos, pulando a configuração de banco de dados e indo direto pra tela.</p>
+            
+            <div className="bg-[#1a1a1a] p-4 rounded-lg mb-4">
+              <h4 className="text-xs font-bold text-gray-300 uppercase mb-2">Os Detalhes (A Divisão Obrigatória)</h4>
+              <p className="text-xs text-gray-400 mb-2">Sua obra é dividida em 6 fases de engenharia inquebráveis:</p>
+              <ul className="list-disc list-inside text-xs text-gray-400 space-y-1">
+                <li>1. Fundação (Repositório) / 2. Backend / 3. Frontend</li>
+                <li>4. Integração / 5. Testes / 6. Deploy</li>
+              </ul>
+            </div>
+
+            <div className="bg-[#1a1a1a] p-4 rounded-lg border-l-2 border-purple-500">
+              <h4 className="text-xs font-bold text-purple-400 uppercase mb-2">Passo a Passo Prático</h4>
+              <ol className="list-decimal list-inside text-xs text-gray-300 space-y-2 font-mono">
+                <li>Vá na aba <strong>Checklist</strong> ou <strong>Mapa</strong>.</li>
+                <li>Verifique a porcentagem (alimentada pelo motor Antigravity).</li>
+                <li>Se a Fase 1 estiver em 50%, <strong>NÃO PEÇA</strong> telas para a IA hoje. Peça apenas tarefas da Fase 1 até cravar 100%.</li>
+              </ol>
+            </div>
           </div>
 
           {/* Card Vistoria */}
-          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5">
-            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><SearchCheck className="w-4 h-4 text-pink-400" /> Vistoria & Roteiro (O Auditor)</h3>
-            <p className="text-xs text-gray-400 leading-relaxed"><strong>O Problema:</strong> Você pediu uma tela de login com esqueci a senha, mas a IA esqueceu o botão.<br/><br/><strong>A Solução:</strong> No Roteiro você desenha o caminho do usuário. Na Vistoria, o AppControl age como um inspetor de qualidade que testa a tela para confirmar se o botão realmente está lá.</p>
+          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5 md:col-span-2">
+            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><SearchCheck className="w-5 h-5 text-pink-400" /> Vistoria & Roteiro (O Auditor)</h3>
+            <p className="text-sm text-gray-400 leading-relaxed mb-4"><strong>O Problema:</strong> Você pediu uma tela de login com "esqueci a senha", mas a IA esqueceu o botão e você só descobriu na produção.</p>
+            
+            <div className="bg-[#1a1a1a] p-4 rounded-lg mb-4">
+              <h4 className="text-xs font-bold text-gray-300 uppercase mb-2">Os Detalhes (Desenho vs. Teste)</h4>
+              <p className="text-xs text-gray-400 mb-2">O <strong>Roteiro</strong> é onde você desenha o caminho (ex: Entra no site - Clica no botão - Vê o painel). A <strong>Vistoria</strong> é o teste de estresse contra esse caminho.</p>
+            </div>
+
+            <div className="bg-[#1a1a1a] p-4 rounded-lg border-l-2 border-pink-500">
+              <h4 className="text-xs font-bold text-pink-400 uppercase mb-2">Passo a Passo Prático</h4>
+              <ol className="list-decimal list-inside text-xs text-gray-300 space-y-2 font-mono">
+                <li>Crie um Roteiro descrevendo o que a tela deveria fazer.</li>
+                <li>Na Vistoria, jogue a tela pronta e mande a ferramenta auditar.</li>
+                <li>Ela vai ler o código da tela e avisar: "Faltou o botão de redefinir senha".</li>
+              </ol>
+            </div>
           </div>
 
           {/* Card Histórico */}
-          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5">
-            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><History className="w-4 h-4 text-yellow-400" /> Fonte de Verdade (O Cartório)</h3>
-            <p className="text-xs text-gray-400 leading-relaxed"><strong>O Problema:</strong> A IA começa a inventar funcionalidades ("alucinar") que nunca foram pedidas.<br/><br/><strong>A Solução:</strong> O que está na Fonte de Verdade é a lei do projeto. Se a IA viajar na maionese, você aponta para a Fonte de Verdade e diz: "Siga o que está no cartório, nada mais."</p>
+          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5 md:col-span-2">
+            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><History className="w-5 h-5 text-yellow-400" /> Fonte de Verdade (O Cartório)</h3>
+            <p className="text-sm text-gray-400 leading-relaxed mb-4"><strong>O Problema:</strong> A IA começa a "alucinar", mudar a arquitetura no meio do caminho ou dizer que você pediu coisas que nunca pediu.</p>
+            
+            <div className="bg-[#1a1a1a] p-4 rounded-lg border-l-2 border-yellow-500">
+              <h4 className="text-xs font-bold text-yellow-400 uppercase mb-2">Passo a Passo Prático</h4>
+              <ol className="list-decimal list-inside text-xs text-gray-300 space-y-2 font-mono">
+                <li>A Fonte de Verdade é um documento cravado em pedra do que foi acordado.</li>
+                <li>Se a IA tentar fugir do escopo no ChatGPT, você não perde tempo argumentando.</li>
+                <li>Você copia as diretrizes da Fonte de Verdade, cola no chat e diz: <strong>"Siga o que está aqui, pare de inventar."</strong></li>
+              </ol>
+            </div>
           </div>
 
           {/* Card Erros */}
-          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5">
-            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><AlertOctagon className="w-4 h-4 text-red-400" /> Log de Erros (O Mural da Vergonha)</h3>
-            <p className="text-xs text-gray-400 leading-relaxed"><strong>O Problema:</strong> A IA comete o mesmo erro idiota três vezes seguidas.<br/><br/><strong>A Solução:</strong> Os erros são anotados aqui. Quando você for gerar a Planta Baixa (Guard Prompt) pro dia seguinte, o Mural anexa o aviso: "Cuidado, você costuma errar a conexão com o banco, não faça isso de novo."</p>
+          <div className="bg-[#0d0d0d] border border-[#2a2a2a] rounded-xl p-5 md:col-span-2">
+            <h3 className="text-white font-semibold flex items-center gap-2 mb-2"><AlertOctagon className="w-5 h-5 text-red-400" /> Log de Erros (O Mural da Vergonha)</h3>
+            <p className="text-sm text-gray-400 leading-relaxed mb-4"><strong>O Problema:</strong> A IA comete exatamente o mesmo erro técnico estúpido em três telas diferentes, gastando seu tempo e paciência.</p>
+            
+            <div className="bg-[#1a1a1a] p-4 rounded-lg border-l-2 border-red-500">
+              <h4 className="text-xs font-bold text-red-400 uppercase mb-2">Passo a Passo Prático</h4>
+              <ol className="list-decimal list-inside text-xs text-gray-300 space-y-2 font-mono">
+                <li>A IA errou feio? Vá no <strong>Log de Erros</strong>.</li>
+                <li>Adicione um novo erro descrevendo a cagada (Ex: "Esqueceu de importar o Auth no Header").</li>
+                <li>Esse erro fica salvo no banco de dados.</li>
+                <li>Amanhã, ao gerar um <strong>Guard Prompt</strong>, esse erro vai injetado no aviso: "ATENÇÃO, IA: Você tem histórico de esquecer o Auth, preste atenção!".</li>
+              </ol>
+            </div>
           </div>
         </div>
       </div>
