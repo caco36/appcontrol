@@ -20,6 +20,38 @@ export const Ajuda: React.FC = () => {
         </p>
       </div>
 
+      {/* Seção 0: A Rotina Prática */}
+      <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-6">
+        <h2 className="text-xl font-bold text-blue-400 mb-4">A Rotina Diária do Dono da Obra (Para Não-Programadores)</h2>
+        <p className="text-sm text-gray-300 mb-6">Você não precisa entender de código para gerenciar o projeto. Você só precisa seguir estes 4 passos básicos no seu dia a dia:</p>
+        
+        <div className="space-y-4">
+          <div className="bg-[#0d0d0d] p-4 rounded-xl border border-[#2a2a2a]">
+            <h3 className="text-white font-bold mb-1">🌞 1. Começando o Dia (O Guard Prompt)</h3>
+            <p className="text-xs text-gray-400"><strong>Quando usar:</strong> Toda vez que for abrir um "Novo Chat" com a IA para pedir uma funcionalidade nova.</p>
+            <p className="text-xs text-gray-400"><strong>Ação:</strong> Gere o texto gigante no Guard Prompt do AppControl, cole no chat vazio do ChatGPT e diga "Leia isso antes de começarmos". Só depois faça o seu pedido.</p>
+          </div>
+
+          <div className="bg-[#0d0d0d] p-4 rounded-xl border border-[#2a2a2a]">
+            <h3 className="text-white font-bold mb-1">🧱 2. O Teste Visual (A Vistoria Simples)</h3>
+            <p className="text-xs text-gray-400"><strong>Quando usar:</strong> Quando a IA te der um código e mandar você colar no arquivo.</p>
+            <p className="text-xs text-gray-400"><strong>Ação:</strong> Você copia, cola e abre o seu aplicativo localmente. Se a tela abrir bonita, a IA acertou. Se a tela ficar toda branca ou explodir erro, a IA errou feio.</p>
+          </div>
+
+          <div className="bg-[#0d0d0d] p-4 rounded-xl border border-[#2a2a2a]">
+            <h3 className="text-white font-bold mb-1">📝 3. Alimentando o Mural da Vergonha (Log de Erros)</h3>
+            <p className="text-xs text-gray-400"><strong>Quando usar:</strong> Quando a IA fez merda (a tela ficou branca) e você teve que brigar com ela no chat para consertar.</p>
+            <p className="text-xs text-gray-400"><strong>Ação:</strong> Quando a IA confessar o erro (ex: "Desculpe, esqueci o botão azul"), vá no AppControl (Log de Erros) e anote com suas palavras: "A IA esquece o botão azul". Isso vai entrar no Guard Prompt de amanhã para ela não esquecer mais.</p>
+          </div>
+
+          <div className="bg-[#0d0d0d] p-4 rounded-xl border border-[#2a2a2a]">
+            <h3 className="text-white font-bold mb-1">🔄 4. Fim do Expediente (Sincronização)</h3>
+            <p className="text-xs text-gray-400"><strong>Quando usar:</strong> No fim do dia ou quando uma tela grande ficar pronta.</p>
+            <p className="text-xs text-gray-400"><strong>Ação:</strong> Clique em Sincronizar Antigravity. O sistema vai varrer seu computador, achar os arquivos que você colou hoje e subir a barra de progresso oficial do seu projeto.</p>
+          </div>
+        </div>
+      </div>
+
       {/* Seção 1: Dashboard */}
       <section className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl p-6 hover:border-[#e8ff5a]/30 transition-colors">
         <div className="flex items-start gap-4">
