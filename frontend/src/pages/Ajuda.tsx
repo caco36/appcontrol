@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, FolderKanban, ShieldCheck, Cpu, SearchCheck, History, Sparkles, FileText, CheckSquare, AlertOctagon, Info } from 'lucide-react';
+import { BookOpen, FolderKanban, ShieldCheck, Cpu, SearchCheck, History, Sparkles, CheckSquare, AlertOctagon, Info } from 'lucide-react';
 
 export const Ajuda: React.FC = () => {
   return (
